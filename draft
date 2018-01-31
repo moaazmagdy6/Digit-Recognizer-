@@ -1,0 +1,82 @@
+MAIN
+------
+
+#include <initiator.cpp>
+#include <vector>
+int main()
+{
+
+    Mat image;
+    initImage(image);   // Read the file
+
+    // Zero is black, One is white.
+    Mat binaryImg; //= image > 128;
+    grayToBin(binaryImg,image);
+
+    printMat(binaryImg);
+
+
+
+//    namedWindow("Digit Recognizer", CV_WINDOW_AUTOSIZE );
+
+//    imshow( "DigitRecognizer", image );
+
+
+    waitKey(0);
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Initiator
+---------
+
+#include <iostream>
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
+using namespace std;
+using namespace cv;
+
+
+void initImage(Mat &src){
+    src = imread("/home/belal/DigitRecognizer/test1.jpg",0);
+
+    if(! src.data )         // Check for invalid input
+    {
+        cout <<  "Could not open or find the image" << std::endl ;
+        terminate();
+    }
+}
+
+
+void grayToBin(Mat &src, Mat &image){
+    src = image > 128;
+    src.convertTo(src, CV_64F, 1 , 0);
+    //this line is optional but just to check if it's right.
+    imwrite("/home/belal/DigitRecognizer/array.jpg", src);
+    src /= 255;
+}
+
+
+void printMat(Mat &src){
+    for(int i = 0; i < src.rows; i++){
+        for(int j = 0; j < src.cols; j++){
+            cout << src.at<double>(i,j);
+        }
+        cout << endl;
+    }
+}
